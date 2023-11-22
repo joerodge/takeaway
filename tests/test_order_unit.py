@@ -17,23 +17,27 @@ def test_add_items_to_order():
     assert order.order == [dish1, dish2]
 
 def test_add_to_order_multiple_of_same_dish():
+    # Commented lines running the test with multile
+    # dish instances with the same values works the same
     order = Order()
     dish1 = Mock()
-    dish2 = Mock()
-    dish3 = Mock()
+    # dish2 = Mock()
+    # dish3 = Mock()
     dish1.name = 'Chicken Salad'
-    dish2.name = 'Chicken Salad'
-    dish3.name = 'Chicken Salad'
+    # dish2.name = 'Chicken Salad'
+    # dish3.name = 'Chicken Salad'
     dish1.price = 7
-    dish2.price = 7
-    dish3.price = 7
+    # dish2.price = 7
+    # dish3.price = 7
     dish1.amount = 1
-    dish2.amount = 1
-    dish3.amount = 1
+    # dish2.amount = 1
+    # dish3.amount = 1
 
     order.add_to_order(dish1)
-    order.add_to_order(dish2)
-    order.add_to_order(dish3)
+    order.add_to_order(dish1)
+    order.add_to_order(dish1)
+    # order.add_to_order(dish2)
+    # order.add_to_order(dish3)
     assert len(order.order) == 1
     assert order.order[0].amount == 3
 
@@ -126,4 +130,46 @@ def test_check_out_with_no_dishes_in_order():
 #     assert check_out == "Thank you! Your order was placed. Total cost £7.00. Estimated delivery time: 45"
 
 
-    
+def test_remove_from_order():
+    order = Order()
+    dish1 = Mock()
+    dish2 = Mock()
+    dish1.price = 4.55
+    dish1.name = 'Pie'
+    dish1.amount = 1
+    dish2.price = 2.20
+    dish2.name = 'Peas'
+    dish2.amount = 1
+    order.add_to_order(dish1)
+    order.add_to_order(dish2)
+    order.remove_from_order(dish1)
+    assert order.order == [dish2]
+
+def test_remove_dish_from_order_that_hasnt_been_added():
+    order = Order()
+    dish1 = Mock()
+    dish2 = Mock()
+    dish1.price = 4.55
+    dish1.name = 'Pie'
+    dish1.amount = 1
+    dish2.price = 2.20
+    dish2.name = 'Peas'
+    dish2.amount = 1
+    order.add_to_order(dish1)
+    order.remove_from_order(dish2)
+    assert order.order == [dish1]
+
+def test_remove_dish_from_list_that_has_multiple_of_same_dish():
+    order = Order()
+    dish1 = Mock()
+    dish1.name = 'Chicken Salad'
+    dish1.price = 7
+    dish1.amount = 1
+    order.add_to_order(dish1)
+    order.add_to_order(dish1)
+    order.add_to_order(dish1)
+    assert order.order[0].amount == 3
+
+    order.remove_from_order(dish1)
+    assert len(order.order) == 1
+    assert order.order[0].amount == 2

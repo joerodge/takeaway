@@ -72,6 +72,27 @@ class Order:
             self.order.append(dish)
             self.total += dish.price
 
+    def remove_from_order(self, dish):
+        """
+        Params:
+            dish - instance of dish to be removed from order
+        Returns:
+            nothing
+        Side-effects:
+            Removes dish from order list
+        """
+        index_to_pop = None
+        for i in range(len(self.order)):
+            # Remove the dish from the list if there is only one of them
+            if self.order[i].name == dish.name and dish.amount == 1:
+                index_to_pop = i
+            # Or reduce the amount by 1 if there are multiple of same dish
+            elif self.order[i].name == dish.name and dish.amount > 1:
+                self.order[i].amount -= 1
+
+        if index_to_pop is not None:
+            self.order.pop(index_to_pop)
+
 
     def show_order(self):
         """
@@ -140,6 +161,4 @@ class Dish:
         self.amount += 1
 
 
-menu = Menu()
-print(menu.list_dishes())
 
