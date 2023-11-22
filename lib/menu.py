@@ -58,6 +58,9 @@ class Order:
             then rather than add another it increased the amount varible
             in the dish object
         """
+        if not hasattr(dish, 'name'):
+            return None
+        
         already_in = False
         for d in self.order:
             if d.name == dish.name:
@@ -69,7 +72,7 @@ class Order:
             self.order.append(dish)
             self.total += dish.price
 
-        
+
     def show_order(self):
         """
         Shows itemised receipt of all items currently in
@@ -107,6 +110,7 @@ class Order:
         esttime = cur_time + plus30
         message_body = f"Thank you! Your order was placed. Total cost £{self.total:.2f}. Estimated delivery time: {esttime.hour}:{esttime.minute}"
 
+        # Send a text if phone number is provided
         if customer_phone_no:
             account_sid = os.environ['TWILIO_ACCOUNT_SID']
             auth_token  = os.environ['TWILIO_AUTH_TOKEN']
@@ -123,9 +127,11 @@ class Order:
 
 class Dish:
     def __init__(self, dish):
-        """Creates a Dish instanst from dish (str)
+        """
+        Creates a Dish instanst from dish (str)
         and sets price from MENU_ITEMS and sets amount
-        to 1 at first"""
+        to 1 at first
+        """
         self.name = dish
         self.price = MENU_ITEMS[dish]
         self.amount = 1
@@ -135,5 +141,5 @@ class Dish:
 
 
 menu = Menu()
-menu.list_dishes()
+print(menu.list_dishes())
 

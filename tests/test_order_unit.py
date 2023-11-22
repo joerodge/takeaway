@@ -47,6 +47,24 @@ def test_add_items_to_order_price_is_updated():
     order.add_to_order(dish2)
     assert order.total == 6.75
 
+"""Adding something other than a Dish object to the order
+should do nothing and return none. Here we try just adding 
+a plain str. It works with mock because the code just checks
+if the object has a 'name' attribute"""
+def test_add_to_order_with_something_other_than_dish_instance():
+    order = Order()
+    dish1 = Mock()
+    dish2 = Mock()
+    dish3 = 'hello'
+    dish1.price = 4.55
+    dish2.price = 2.20
+    order.add_to_order(dish1)
+    order.add_to_order(dish2)
+    order_add = order.add_to_order(dish3)
+    assert order.order == [dish1, dish2]
+    assert order_add is None
+
+
 def test_show_order():
     order = Order()
     dish1 = Mock()
