@@ -173,3 +173,35 @@ def test_remove_dish_from_list_that_has_multiple_of_same_dish():
     order.remove_from_order(dish1)
     assert len(order.order) == 1
     assert order.order[0].amount == 2
+
+def test_remove_updates_price_with_single_item():
+    order = Order()
+    dish1 = Mock()
+    dish2 = Mock()
+    dish1.price = 4.55
+    dish1.name = 'Pie'
+    dish1.amount = 1
+    dish2.price = 2.20
+    dish2.name = 'Peas'
+    dish2.amount = 1
+    order.add_to_order(dish1)
+    order.add_to_order(dish2)
+    assert order.total == 6.75
+
+    order.remove_from_order(dish2)
+    assert order.total == 4.55
+
+
+def test_remove_dish_updates_total_price_multiple_of_same_dish():
+    order = Order()
+    dish1 = Mock()
+    dish1.name = 'Chicken Salad'
+    dish1.price = 7
+    dish1.amount = 1
+    order.add_to_order(dish1)
+    order.add_to_order(dish1)
+    order.add_to_order(dish1)
+    assert order.total == 21
+
+    order.remove_from_order(dish1)
+    assert order.total == 14

@@ -3,7 +3,9 @@ from twilio.rest import Client
 import datetime
 import os
 
+
 class Menu:
+
     def __init__(self):
         """
         Sets a list of dish objects from all items on menu
@@ -12,6 +14,7 @@ class Menu:
         for dish_name in MENU_ITEMS:
             dish = Dish(dish_name)
             self.dishes.append(dish)
+
 
     def list_dishes(self):
         """
@@ -23,7 +26,7 @@ class Menu:
             by new line
             """
         return '\n'.join([f"{dish.name}: £{dish.price:.2f}" for dish in self.dishes])
-    
+
 
     def get_dish(self, dish_name):
         """Get an item from the menu and return the dish
@@ -38,13 +41,16 @@ class Menu:
         return "Dish isn't on the menu"
 
 
+
 class Order:
+
     def __init__(self):
         """
         Sets order up to empty order list and price to 0
         """
         self.order = []
         self.total = 0
+
 
     def add_to_order(self, dish):
         """
@@ -72,6 +78,7 @@ class Order:
             self.order.append(dish)
             self.total += dish.price
 
+
     def remove_from_order(self, dish):
         """
         Params:
@@ -89,8 +96,10 @@ class Order:
             # Or reduce the amount by 1 if there are multiple of same dish
             elif self.order[i].name == dish.name and dish.amount > 1:
                 self.order[i].amount -= 1
+                self.total -= self.order[i].price
 
         if index_to_pop is not None:
+            self.total -= self.order[index_to_pop].price
             self.order.pop(index_to_pop)
 
 
@@ -107,7 +116,7 @@ class Order:
         receipt = '\n'.join([f"{dish.name}: (x{dish.amount}) £{dish.price*dish.amount:.2f}" for dish in self.order])
         receipt += '\n---------\n'
         return receipt + f"Total: £{self.total:.2f}"
-    
+
 
     def checkout(self, customer_phone_no, timer=datetime):
         """
@@ -146,7 +155,9 @@ class Order:
         return message_body
 
 
+
 class Dish:
+
     def __init__(self, dish):
         """
         Creates a Dish instanst from dish (str)
@@ -156,6 +167,7 @@ class Dish:
         self.name = dish
         self.price = MENU_ITEMS[dish]
         self.amount = 1
+
 
     def add_one(self):
         self.amount += 1
