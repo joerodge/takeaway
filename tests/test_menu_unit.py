@@ -10,3 +10,4 @@ def test_list_all_dishes():
     result = menu.list_dishes()
     assert result.startswith('Fish and Chips: £11.50\nSausage')
     assert result.endswith('£7.50\nHam and Cheese Baguette: £5.00')
+
